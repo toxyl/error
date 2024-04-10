@@ -125,7 +125,7 @@ func Panic(err error, msg string, args ...any) {
 	if e, ok := err.(*Error); ok && e.len == 0 {
 		return
 	}
-	panic(fmt.Sprintf(msg+"\n", args...))
+	panic(fmt.Sprintf(msg+"\nerror: %s\n", append(args, err.Error())...))
 }
 
 // Exit exists with the given `exitCode` if `err` is not nil.
@@ -136,6 +136,6 @@ func Exit(err error, exitCode int, msg string, args ...any) {
 	if e, ok := err.(*Error); ok && e.len == 0 {
 		return
 	}
-	fmt.Printf(msg+"\n", args...)
+	fmt.Printf(msg+"\nerror: %s\n", append(args, err.Error())...)
 	os.Exit(exitCode)
 }
