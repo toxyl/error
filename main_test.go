@@ -45,6 +45,7 @@ func TestChain(t *testing.T) {
 	Exit(e, 1, "there's no error, so we shouldn't exit")
 	Exit(nil, 2, "shouldn't exit either")
 	Panic(e, "we shouldn't panic here")
+	Warn(e, "nothing to warn about")
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.time%7 == 0 {
@@ -61,5 +62,6 @@ func TestChain(t *testing.T) {
 	t.Log(IsError(e.error))
 	t.Log(e)
 	t.Logf("%v", e.List())
+	Warn(e, "this is a warning! you better watch out!")
 	Panic(e, "we've reached the end of the test")
 }

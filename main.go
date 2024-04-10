@@ -4,9 +4,12 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/toxyl/glog"
 )
 
 var (
+	log       = glog.NewLoggerSimple("errors")
 	Separator = ": "
 )
 
@@ -136,6 +139,19 @@ func Exit(err error, exitCode int, msg string, args ...any) {
 	if e, ok := err.(*Error); ok && e.len == 0 {
 		return
 	}
-	fmt.Printf(msg+"\nerror: %s\n", append(args, err.Error())...)
+	log.ErrorAuto(msg, args...)
+	log.ErrorAuto("error: %s", err)
 	os.Exit(exitCode)
+}
+
+// Warn prints a warning if `err` is not nil.
+func Warn(err error, msg string, args ...any) {
+	if err == nil {
+		return
+	}
+	if e, ok := err.(*Error); ok && e.len == 0 {
+		return
+	}
+	log.WarningAuto(msg, args...)
+	log.WarningAuto("error: %s", err)
 }
